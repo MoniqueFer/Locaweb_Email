@@ -11,7 +11,7 @@ import SwiftUI
 struct Locaweb_EmailApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }

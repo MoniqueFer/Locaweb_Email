@@ -8,17 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		AD338EE22C89E1A000E7789C /* Locaweb_EmailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD338EE12C89E1A000E7789C /* Locaweb_EmailApp.swift */; };
-		AD338EE42C89E1A000E7789C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD338EE32C89E1A000E7789C /* ContentView.swift */; };
+		AD338EE42C89E1A000E7789C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD338EE32C89E1A000E7789C /* LoginView.swift */; };
 		AD338EE62C89E1A100E7789C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD338EE52C89E1A100E7789C /* Assets.xcassets */; };
 		AD338EE92C89E1A100E7789C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD338EE82C89E1A100E7789C /* Preview Assets.xcassets */; };
+		AD628E632C93263F005BCA19 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = AD628E622C93263F005BCA19 /* Alamofire */; };
+		AD628E652C932681005BCA19 /* APITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD628E642C932681005BCA19 /* APITest.swift */; };
+		AD628E672C932989005BCA19 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD628E662C932989005BCA19 /* DataModel.swift */; };
+		AD628E6B2C95DD91005BCA19 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD628E6A2C95DD91005BCA19 /* UserPreferences.swift */; };
+		ADAE85D22C8D11140070CE3B /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAE85D12C8D11140070CE3B /* Dashboard.swift */; };
+		ADAE85D42C8D4EC30070CE3B /* WriteMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAE85D32C8D4EC30070CE3B /* WriteMail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AD338EDE2C89E1A000E7789C /* Locaweb_Email.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Locaweb_Email.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD338EE12C89E1A000E7789C /* Locaweb_EmailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locaweb_EmailApp.swift; sourceTree = "<group>"; };
-		AD338EE32C89E1A000E7789C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AD338EE32C89E1A000E7789C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		AD338EE52C89E1A100E7789C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD338EE82C89E1A100E7789C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AD628E642C932681005BCA19 /* APITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITest.swift; sourceTree = "<group>"; };
+		AD628E662C932989005BCA19 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		AD628E6A2C95DD91005BCA19 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		ADAE85D12C8D11140070CE3B /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
+		ADAE85D32C8D4EC30070CE3B /* WriteMail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD628E632C93263F005BCA19 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +64,12 @@
 			isa = PBXGroup;
 			children = (
 				AD338EE12C89E1A000E7789C /* Locaweb_EmailApp.swift */,
-				AD338EE32C89E1A000E7789C /* ContentView.swift */,
+				AD338EE32C89E1A000E7789C /* LoginView.swift */,
+				ADAE85D12C8D11140070CE3B /* Dashboard.swift */,
+				AD628E6A2C95DD91005BCA19 /* UserPreferences.swift */,
+				ADAE85D32C8D4EC30070CE3B /* WriteMail.swift */,
+				AD628E642C932681005BCA19 /* APITest.swift */,
+				AD628E662C932989005BCA19 /* DataModel.swift */,
 				AD338EE52C89E1A100E7789C /* Assets.xcassets */,
 				AD338EE72C89E1A100E7789C /* Preview Content */,
 			);
@@ -83,6 +100,9 @@
 			dependencies = (
 			);
 			name = Locaweb_Email;
+			packageProductDependencies = (
+				AD628E622C93263F005BCA19 /* Alamofire */,
+			);
 			productName = Locaweb_Email;
 			productReference = AD338EDE2C89E1A000E7789C /* Locaweb_Email.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +131,9 @@
 				Base,
 			);
 			mainGroup = AD338ED52C89E1A000E7789C;
+			packageReferences = (
+				AD628E612C93263F005BCA19 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = AD338EDF2C89E1A000E7789C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,8 +160,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD338EE42C89E1A000E7789C /* ContentView.swift in Sources */,
+				ADAE85D42C8D4EC30070CE3B /* WriteMail.swift in Sources */,
+				AD628E6B2C95DD91005BCA19 /* UserPreferences.swift in Sources */,
+				AD338EE42C89E1A000E7789C /* LoginView.swift in Sources */,
+				ADAE85D22C8D11140070CE3B /* Dashboard.swift in Sources */,
+				AD628E652C932681005BCA19 /* APITest.swift in Sources */,
 				AD338EE22C89E1A000E7789C /* Locaweb_EmailApp.swift in Sources */,
+				AD628E672C932989005BCA19 /* DataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,9 +315,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.moni.Locaweb-Email";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -316,9 +348,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "br.com.moni.Locaweb-Email";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -344,6 +380,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD628E612C93263F005BCA19 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD628E622C93263F005BCA19 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD628E612C93263F005BCA19 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD338ED62C89E1A000E7789C /* Project object */;
 }
