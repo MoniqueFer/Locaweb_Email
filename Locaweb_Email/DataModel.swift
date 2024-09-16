@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Alamofire
+
 
 struct MyDataTest: Codable {
 	let name: String
@@ -21,8 +23,8 @@ struct ConfigsWrapper: Codable {
 
 struct Configs: Codable {
 	let present_full_name: Bool
+	let is_dark_mode: Bool
 }
-
 
 enum EmailType: String, Codable {
 	case received, draft, sent
@@ -32,7 +34,7 @@ enum EmailCategory: String, Codable {
 	case normal, important, spam
 }
 
-struct Email: Codable {
+struct Email: Codable, Identifiable {
 	let sent_date: Int
 	let id: String
 	let type: EmailType
@@ -44,4 +46,3 @@ struct Email: Codable {
 	let content: String
 	let category: EmailCategory
 }
-

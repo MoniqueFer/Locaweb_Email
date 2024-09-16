@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Locaweb_EmailApp: App {
+
+	
     var body: some Scene {
         WindowGroup {
             LoginView()
+				
         }
     }
 }

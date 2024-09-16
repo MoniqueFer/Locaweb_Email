@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import Alamofire
 
 struct LoginView: View {
 	
 	@State private var loginField: String = ""
 	@State private var passwordField: String = ""
+	@State private var isDarkMode: Bool = false
+
 	
     var body: some View {
 		
@@ -138,9 +141,37 @@ struct LoginView: View {
 				}
 				
 			}
+			.preferredColorScheme(isDarkMode ? .dark : .light)
+			.onAppear {
+				fetchUserPreferences()
+			}
+
 		}
 		
     }
+	
+	func fetchUserPreferences() {
+		let url = "http://127.0.0.1:8000/user/monique"
+
+		AF.request(url)
+			.responseData { response in
+				switch response.result {
+				case .success(let data):
+					do {
+						let decodedData = try JSONDecoder().decode(MyDataTest.self, from: data)
+						DispatchQueue.main.async {
+							self.isDarkMode = decodedData.configs.configs.is_dark_mode
+						}
+					} catch {
+						print("Erro ao decodificar dados: \(error.localizedDescription)")
+					}
+				case .failure(let error):
+					print("Erro ao chamar a API: \(error.localizedDescription)")
+				}
+			}
+	}
+
+
 }
 
 #Preview {

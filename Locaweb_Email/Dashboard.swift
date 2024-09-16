@@ -17,6 +17,8 @@ import Alamofire
 struct Dashboard: View {
 	
 	@State var myName : String = ""
+	@State var myLastName: String = ""
+	@State var presentFullName: Bool = false
 	@State var fruits : [String] = [
 		"apple", "banana", "pear", "peach", "orange", "Strawberry", "watermellon", "cherry", "melon"]
 	
@@ -29,7 +31,7 @@ struct Dashboard: View {
 				VStack{
 				
 					
-					HelloUserSubView(myName: $myName)
+					HelloUserSubView(myName: $myName, myLastName: $myLastName, presentFullName: $presentFullName)
 					
 					
 					MailPlusMagnifierSubview()
@@ -91,6 +93,7 @@ struct Dashboard: View {
 						.frame(width: 250)
 						.padding(.bottom, 1)
 						
+						
 					}
 					
 					
@@ -114,20 +117,48 @@ struct Dashboard: View {
     }
 	
 
+//	func callAPI() {
+//		AF.request("http://127.0.0.1:8000/user/monique")
+//			.responseData { response in
+//				switch response.result {
+//				case .success(let data):
+//					let dataString = String(data: data, encoding: .utf8) ?? "Dados não disponíveis"
+//					print("Dados da resposta: \(dataString)")
+//					
+//					do {
+//						let decodedData = try JSONDecoder().decode(MyDataTest.self, from: data)
+//						print("Nome recebido: \(decodedData.name)")
+//						self.myName = decodedData.name
+//						self.myLastName = decodedData.last_name
+//					} catch {
+//						print("Erro ao decodificar dados: \(error.localizedDescription)")
+//					}
+//					
+//				case .failure(let error):
+//					print("Erro ao chamar a API: \(error.localizedDescription)")
+//				}
+//			}
+//	}
+
 	func callAPI() {
 		AF.request("http://127.0.0.1:8000/user/monique")
 			.responseData { response in
 				switch response.result {
 				case .success(let data):
-					// Print raw data to understand the format
 					let dataString = String(data: data, encoding: .utf8) ?? "Dados não disponíveis"
 					print("Dados da resposta: \(dataString)")
 					
-					// Attempt to decode the data
 					do {
 						let decodedData = try JSONDecoder().decode(MyDataTest.self, from: data)
-						print("Nome recebido: \(decodedData.name)")
-						self.myName = decodedData.name
+						
+						let presentFullName = decodedData.configs.configs.present_full_name
+						let fullName = presentFullName ? "\(decodedData.name) \(decodedData.last_name)" : decodedData.name
+						
+						self.myName = fullName
+						self.myLastName = decodedData.last_name
+						
+						print("Nome completo: \(fullName)")
+						
 					} catch {
 						print("Erro ao decodificar dados: \(error.localizedDescription)")
 					}
@@ -139,8 +170,6 @@ struct Dashboard: View {
 	}
 
 	
-	
-	
 }
 
 
@@ -150,6 +179,8 @@ struct Dashboard: View {
 
 struct HelloUserSubView: View {
 	@Binding var myName : String
+	@Binding var myLastName: String
+	@Binding var presentFullName: Bool
 	
 	var body: some View {
 		HStack {
@@ -159,7 +190,7 @@ struct HelloUserSubView: View {
 					.padding(.trailing)
 			}
 			
-			Text("Olá, \(myName)")
+			Text("Olá, \(presentFullName ? "\(myName) \(myLastName)" : myName)")
 				.font(.largeTitle)
 				.bold()
 				.foregroundStyle(Color.white)

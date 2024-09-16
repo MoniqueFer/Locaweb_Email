@@ -8,6 +8,7 @@
 import SwiftUI
 import EventKitUI
 import EventKit
+import Alamofire
 
 struct WriteMail: View {
 	
@@ -17,6 +18,7 @@ struct WriteMail: View {
 	@State private var showEventEditViewController = false
 	@State private var event: EKEvent?
 	@State private var store = EKEventStore()
+	@State private var isDarkMode: Bool = false
 	
 	
 	var body: some View {
@@ -27,24 +29,36 @@ struct WriteMail: View {
 				
 				VStack{
 					
-					TextField("E-mail", text: $destination)
-						.padding()
-						.background(
-						RoundedRectangle(cornerRadius: 10)
-							.fill(.white)
-						)
-						.padding(.horizontal)
 					
-					TextField("Assunto", text: $subject)
-						.padding()
-						.background(
-						RoundedRectangle(cornerRadius: 10)
-							.fill(.white)
-						)
-						.padding(.horizontal)
+					HStack {
+						Text("E-mail:")
+							.padding(.leading)
+						TextField("E-mail", text: $destination)
+							.foregroundStyle(isDarkMode ? .black : .white)
+							.padding()
+							.background(
+								RoundedRectangle(cornerRadius: 10)
+									.fill(.white)
+							)
+							.padding(.horizontal)
+					}
+					
+					HStack {
+						Text("Assunto:")
+							.padding(.leading)
+						TextField("Assunto", text: $subject)
+							.foregroundStyle(isDarkMode ? .black : .white)
+							.padding()
+							.background(
+								RoundedRectangle(cornerRadius: 10)
+									.fill(.white)
+							)
+							.padding(.trailing)
+							.padding(.leading, 1)
+					}
 					
 					HStack{
-						 Spacer()
+						Spacer()
 						
 						Button(action: {}, label: {
 							Text("Adicionar Anexo")
@@ -54,7 +68,7 @@ struct WriteMail: View {
 									RoundedRectangle(cornerRadius: 10)
 										.fill(.white)
 										.frame(height: 70)
-										)
+								)
 						})
 						
 						Button(action: {
@@ -68,40 +82,61 @@ struct WriteMail: View {
 									RoundedRectangle(cornerRadius: 10)
 										.fill(.white)
 										.frame(height: 70)
-										)
+								)
 						})
 						.sheet(isPresented: $showEventEditViewController, content: {
 							EventEditViewController(event: $event, eventStore: store)
 						})
-					
+						
 						
 						Spacer()
 						
 					} .frame(maxWidth: .infinity)
 					
+					//					TextEditor(text: $mailBody)
+					//						.padding()
+					//						.background(
+					//						RoundedRectangle(cornerRadius: 25.0))
+					//						.foregroundStyle(.white)
+					//						.padding(.horizontal)
+					
 					TextEditor(text: $mailBody)
 						.padding()
 						.background(
-						RoundedRectangle(cornerRadius: 25.0))
-						.foregroundStyle(.white)
+							RoundedRectangle(cornerRadius: 25.0)
+								.fill(isDarkMode ? Color.black : Color.white)
+						)
+						.overlay(
+							RoundedRectangle(cornerRadius: 25.0)
+								.stroke(isDarkMode ? Color.white : Color.gray, lineWidth: 2)
+						)
+						.foregroundColor(isDarkMode ? Color.white : Color.black)
 						.padding(.horizontal)
-				
+						.onAppear {
+							UITextView.appearance().backgroundColor = .clear
+						}
+					
+					
 					Button(action: {}, label: {
 						Text("Enviar")
 							.foregroundStyle(.black)
 							.padding()
 							.background(
-							RoundedRectangle(cornerRadius: 20)
-								.fill(.white)
+								RoundedRectangle(cornerRadius: 20)
+									.fill(.white)
 							) .frame(maxWidth: .infinity, alignment: .trailing)
 							.padding(.horizontal)
 					})
-
+					
 					
 				}
 				
 				
 				
+			}
+			
+			.onAppear {
+				fetchUserPreferences()
 			}
 		}
 		
@@ -133,6 +168,28 @@ struct WriteMail: View {
 				print("Access was denied.")
 			}
 		}
+	}
+	
+	
+	func fetchUserPreferences() {
+		let url = "http://127.0.0.1:8000/user/monique"
+		
+		AF.request(url)
+			.responseData { response in
+				switch response.result {
+				case .success(let data):
+					do {
+						let decodedData = try JSONDecoder().decode(MyDataTest.self, from: data)
+						DispatchQueue.main.async {
+							self.isDarkMode = decodedData.configs.configs.is_dark_mode
+						}
+					} catch {
+						print("Erro ao decodificar dados: \(error.localizedDescription)")
+					}
+				case .failure(let error):
+					print("Erro ao chamar a API: \(error.localizedDescription)")
+				}
+			}
 	}
 }
 
