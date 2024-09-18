@@ -13,6 +13,8 @@ struct LoginView: View {
 	@State private var loginField: String = ""
 	@State private var passwordField: String = ""
 	@State private var isDarkMode: Bool = false
+	@EnvironmentObject var darkModeManager: DarkModeManager
+
 
 	
     var body: some View {
@@ -110,10 +112,7 @@ struct LoginView: View {
 						Spacer()
 					}.padding(.vertical)
 					
-					
-					// need to transform this in a nav link in the future
-					// LOOK LOOK LOOK LOOK LOOK LOOK LOOK LOOK LOOK LOOK LOOK LOOK
-					
+
 					
 					NavigationLink(destination: Dashboard()) {
 						HStack{
@@ -141,12 +140,14 @@ struct LoginView: View {
 				}
 				
 			}
-			.preferredColorScheme(isDarkMode ? .dark : .light)
+			
 			.onAppear {
 				fetchUserPreferences()
 			}
-
+			
 		}
+		.preferredColorScheme(darkModeManager.isDarkMode ? .dark : .light)
+
 		
     }
 	
@@ -160,7 +161,7 @@ struct LoginView: View {
 					do {
 						let decodedData = try JSONDecoder().decode(MyDataTest.self, from: data)
 						DispatchQueue.main.async {
-							self.isDarkMode = decodedData.configs.configs.is_dark_mode
+							darkModeManager.updateDarkMode(from: decodedData.configs.configs.is_dark_mode)
 						}
 					} catch {
 						print("Erro ao decodificar dados: \(error.localizedDescription)")
@@ -170,9 +171,10 @@ struct LoginView: View {
 				}
 			}
 	}
-
-
 }
+
+
+
 
 #Preview {
 	LoginView()

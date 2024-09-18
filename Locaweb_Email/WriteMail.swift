@@ -2,9 +2,10 @@
 //  WriteMail.swift
 //  Locaweb_Email
 //
-//  Created by Monique Ferrarini on 08/09/24.
+//  Created by Monique Ferrarini on 16/09/24.
 //
 
+import SwiftUI
 import SwiftUI
 import EventKitUI
 import EventKit
@@ -19,7 +20,9 @@ struct WriteMail: View {
 	@State private var event: EKEvent?
 	@State private var store = EKEventStore()
 	@State private var isDarkMode: Bool = false
-	
+	@EnvironmentObject var darkModeManager: DarkModeManager
+	@State private var showConfirmation = false
+
 	
 	var body: some View {
 		
@@ -71,34 +74,10 @@ struct WriteMail: View {
 								)
 						})
 						
-						Button(action: {
-							showEventEditViewController = true
-						}, label: {
-							Text("Adicionar ao Calendário")
-								.foregroundStyle(.black)
-								.padding()
-								.padding(.vertical)
-								.background(
-									RoundedRectangle(cornerRadius: 10)
-										.fill(.white)
-										.frame(height: 70)
-								)
-						})
-						.sheet(isPresented: $showEventEditViewController, content: {
-							EventEditViewController(event: $event, eventStore: store)
-						})
-						
 						
 						Spacer()
 						
 					} .frame(maxWidth: .infinity)
-					
-					//					TextEditor(text: $mailBody)
-					//						.padding()
-					//						.background(
-					//						RoundedRectangle(cornerRadius: 25.0))
-					//						.foregroundStyle(.white)
-					//						.padding(.horizontal)
 					
 					TextEditor(text: $mailBody)
 						.padding()
@@ -117,7 +96,9 @@ struct WriteMail: View {
 						}
 					
 					
-					Button(action: {}, label: {
+					Button(action: {
+						sendEmail()
+					}, label: {
 						Text("Enviar")
 							.foregroundStyle(.black)
 							.padding()
@@ -136,39 +117,14 @@ struct WriteMail: View {
 			}
 			
 			.onAppear {
-				fetchUserPreferences()
-			}
-		}
-		
-		
-	}
-	
-	func addCalendarEvent() {
-		let store = EKEventStore()
-		
-		// Request full access to events
-		store.requestFullAccessToEvents { granted, error in
-			if let error = error {
-				print("Failed to get access: \(error.localizedDescription)")
-			} else if granted {
-				// Full access granted, proceed with event creation
-				let event = EKEvent(eventStore: store)
-				event.title = "New Event"
-				event.startDate = Date()
-				event.endDate = Date().addingTimeInterval(60 * 60) // 1-hour event
-				event.calendar = store.defaultCalendarForNewEvents
-				
-				do {
-					try store.save(event, span: .thisEvent)
-					print("Event successfully saved")
-				} catch {
-					print("Error saving event: \(error)")
+							fetchUserPreferences()
+						}
+					}
+					.preferredColorScheme(darkModeManager.isDarkMode ? .dark : .light)
+					.alert(isPresented: $showConfirmation) {
+						Alert(title: Text("E-mail enviado!"), message: Text("Seu e-mail foi enviado com sucesso."), dismissButton: .default(Text("OK")))
+					}
 				}
-			} else {
-				print("Access was denied.")
-			}
-		}
-	}
 	
 	
 	func fetchUserPreferences() {
@@ -191,44 +147,38 @@ struct WriteMail: View {
 				}
 			}
 	}
-}
-
-
-struct EventEditViewController: UIViewControllerRepresentable {
-	@Environment(\.dismiss) var dismiss
-	@Binding var event: EKEvent?
-
-	let eventStore: EKEventStore
-	
-	func makeUIViewController(context: Context) -> EKEventEditViewController {
-		let controller = EKEventEditViewController()
+	func sendEmail() {
+		let newEmail = Email(
+			sent_date: Int(Date().timeIntervalSince1970),
+			id: UUID().uuidString,
+			type: .sent,
+			hash: UUID().uuidString,
+			to: destination,
+			from: "monique.ferrarini@email.com",
+			cc: nil,
+			subject: subject,
+			content: mailBody,
+			category: .normal
+		)
 		
-		controller.eventStore = eventStore
-		controller.event = event
-		controller.editViewDelegate = context.coordinator
+		let url = "http://127.0.0.1:8000/email/send/monique.ferrarini@email.com"
 		
-		return controller
+		AF.request(url, method: .post, parameters: newEmail, encoder: JSONParameterEncoder.default)
+			.response { response in
+				switch response.result {
+				case .success:
+					print("E-mail enviado com sucesso.")
+					showConfirmation = true
+				case .failure(let error):
+					print("Erro ao enviar o e-mail: \(error.localizedDescription)")
+				}
+			}
 	}
 	
-	func updateUIViewController(_ uiViewController: EKEventEditViewController, context: Context) {}
-	
-	func makeCoordinator() -> Coordinator { return Coordinator (self) }
-	
-	class Coordinator: NSObject, EKEventEditViewDelegate {
-		var parent: EventEditViewController
-		
-		init(_ controller: EventEditViewController) {
-			self.parent = controller
-		}
-		func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
-			parent.dismiss()
-		}
-	}
 }
-
-
-
 
 #Preview {
 	WriteMail()
+		.environmentObject(DarkModeManager())
 }
+

@@ -9,9 +9,10 @@ import SwiftUI
 import Alamofire
 
 
-// falta transformar a lista na lista de emails
+// OK falta transformar a lista na lista de emails
 // fazer a tela de visualizacao de email
 // setar o botao do calendario
+// o mock de enviar email funcionando
 
 
 struct Dashboard: View {
@@ -19,8 +20,9 @@ struct Dashboard: View {
 	@State var myName : String = ""
 	@State var myLastName: String = ""
 	@State var presentFullName: Bool = false
-	@State var fruits : [String] = [
-		"apple", "banana", "pear", "peach", "orange", "Strawberry", "watermellon", "cherry", "melon"]
+	@State var emails: [Email] = []
+	@EnvironmentObject var darkModeManager: DarkModeManager
+
 	
     var body: some View {
 	
@@ -66,79 +68,44 @@ struct Dashboard: View {
 							})
 						} .padding(.leading)
 						
-						List {
-							
-							Section (header:
-										
-										HStack {
-								
-							} 
-								.font(.headline)
-									 
-							) {
-								ForEach (fruits, id: \.self) { fruit in
-									Text(fruit.capitalized)
-										.foregroundStyle(.black)
-								}
-								
-								
-								
-							}
-							
-							
-						}
-						
-						.scrollContentBackground(.hidden)
-						.background(Color.bg)
-						.frame(width: 250)
-						.padding(.bottom, 1)
-						
-						
-					}
-					
-					
-					
-					
-					
-				}
-				
-				
-				//calling the function that calls the API
-				.onAppear{
-					callAPI()
-				}
-				
-			}
-			
-			
+						List(emails) { email in
+												   NavigationLink(destination: ReadMail(email: email)) {
+													   VStack(alignment: .leading) {
+														   Text(email.subject)
+															   .font(.headline)
+														   Text(email.from)
+															   .font(.subheadline)
+															   .foregroundStyle(.gray)
+													   }
+												   }
+											   }
+											   .scrollContentBackground(.hidden)
+											   .background(Color.bg)
+											   .frame(width: 250)
+											   .padding(.bottom, 1)
+										   }
+									   }
+									   .onAppear {
+										   Task {
+											   await loadEmails()
+										   }
+									   }
+								   }
 			.navigationBarHidden(true)
+		}         .preferredColorScheme(darkModeManager.isDarkMode ? .dark : .light)
+
+
+    } 
+
+	func loadEmails() async {
+			await withTaskGroup(of: Void.self) { group in
+				group.addTask {
+					await callAPI()
+				}
+			}
 		}
 
-    }
 	
-
-//	func callAPI() {
-//		AF.request("http://127.0.0.1:8000/user/monique")
-//			.responseData { response in
-//				switch response.result {
-//				case .success(let data):
-//					let dataString = String(data: data, encoding: .utf8) ?? "Dados não disponíveis"
-//					print("Dados da resposta: \(dataString)")
-//					
-//					do {
-//						let decodedData = try JSONDecoder().decode(MyDataTest.self, from: data)
-//						print("Nome recebido: \(decodedData.name)")
-//						self.myName = decodedData.name
-//						self.myLastName = decodedData.last_name
-//					} catch {
-//						print("Erro ao decodificar dados: \(error.localizedDescription)")
-//					}
-//					
-//				case .failure(let error):
-//					print("Erro ao chamar a API: \(error.localizedDescription)")
-//				}
-//			}
-//	}
 
 	func callAPI() {
 		AF.request("http://127.0.0.1:8000/user/monique")
@@ -156,6 +123,8 @@ struct Dashboard: View {
 						
 						self.myName = fullName
 						self.myLastName = decodedData.last_name
+						self.emails = decodedData.emails
+
 						
 						print("Nome completo: \(fullName)")
 						
@@ -175,6 +144,7 @@ struct Dashboard: View {
 
 #Preview {
     Dashboard()
+		.environmentObject(DarkModeManager())
 }
 
 struct HelloUserSubView: View {

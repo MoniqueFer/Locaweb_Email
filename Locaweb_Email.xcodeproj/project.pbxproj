@@ -16,7 +16,8 @@
 		AD628E672C932989005BCA19 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD628E662C932989005BCA19 /* DataModel.swift */; };
 		AD628E6B2C95DD91005BCA19 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD628E6A2C95DD91005BCA19 /* UserPreferences.swift */; };
 		ADAE85D22C8D11140070CE3B /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAE85D12C8D11140070CE3B /* Dashboard.swift */; };
-		ADAE85D42C8D4EC30070CE3B /* WriteMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAE85D32C8D4EC30070CE3B /* WriteMail.swift */; };
+		ADAE85D42C8D4EC30070CE3B /* ReadMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAE85D32C8D4EC30070CE3B /* ReadMail.swift */; };
+		ADFFFBB82C98918100C37DAA /* WriteMail.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADFFFBB72C98918000C37DAA /* WriteMail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +30,8 @@
 		AD628E662C932989005BCA19 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		AD628E6A2C95DD91005BCA19 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		ADAE85D12C8D11140070CE3B /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
-		ADAE85D32C8D4EC30070CE3B /* WriteMail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMail.swift; sourceTree = "<group>"; };
+		ADAE85D32C8D4EC30070CE3B /* ReadMail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadMail.swift; sourceTree = "<group>"; };
+		ADFFFBB72C98918000C37DAA /* WriteMail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +69,8 @@
 				AD338EE32C89E1A000E7789C /* LoginView.swift */,
 				ADAE85D12C8D11140070CE3B /* Dashboard.swift */,
 				AD628E6A2C95DD91005BCA19 /* UserPreferences.swift */,
-				ADAE85D32C8D4EC30070CE3B /* WriteMail.swift */,
+				ADAE85D32C8D4EC30070CE3B /* ReadMail.swift */,
+				ADFFFBB72C98918000C37DAA /* WriteMail.swift */,
 				AD628E642C932681005BCA19 /* APITest.swift */,
 				AD628E662C932989005BCA19 /* DataModel.swift */,
 				AD338EE52C89E1A100E7789C /* Assets.xcassets */,
@@ -160,7 +163,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADAE85D42C8D4EC30070CE3B /* WriteMail.swift in Sources */,
+				ADFFFBB82C98918100C37DAA /* WriteMail.swift in Sources */,
+				ADAE85D42C8D4EC30070CE3B /* ReadMail.swift in Sources */,
 				AD628E6B2C95DD91005BCA19 /* UserPreferences.swift in Sources */,
 				AD338EE42C89E1A000E7789C /* LoginView.swift in Sources */,
 				ADAE85D22C8D11140070CE3B /* Dashboard.swift in Sources */,

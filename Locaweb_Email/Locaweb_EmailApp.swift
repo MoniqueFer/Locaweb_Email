@@ -9,11 +9,13 @@ import SwiftUI
 
 @main
 struct Locaweb_EmailApp: App {
+	@StateObject private var darkModeManager = DarkModeManager()
 
 	
     var body: some Scene {
         WindowGroup {
             LoginView()
+				.environmentObject(darkModeManager) 
 				
         }
     }
